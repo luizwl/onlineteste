@@ -24,7 +24,7 @@
     <ul id="client-list"></ul>
 
     <script>
-        const socket = new WebSocket('ws://localhost:8080'); // Conectar ao servidor WebSocket
+        const socket = new WebSocket('ws://192.168.15.111:8080'); // Alterado para IP local
 
         // Quando a conexão WebSocket for aberta
         socket.onopen = function() {
@@ -35,10 +35,12 @@
         socket.onmessage = function(event) {
             const data = JSON.parse(event.data);
 
+            // Verifica se é a resposta inicial de clientes
             if (data.type === 'initialClients') {
                 updateClientList(data.clients);
             }
 
+            // Verifica se a lista de clientes foi atualizada
             if (data.type === 'updateClients') {
                 updateClientList(data.clients);
             }
@@ -46,6 +48,8 @@
 
         // Atualiza a lista de clientes na página
         function updateClientList(clients) {
+            console.log('Atualizando lista de clientes:', clients);  // Verifique se esta linha aparece no console do navegador
+
             const clientList = document.getElementById('client-list');
             clientList.innerHTML = ''; // Limpa a lista antes de adicionar os novos dados
 
